@@ -1,7 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:potenday/src/config/sqlite_config.dart';
+import 'package:potenday/src/provider/bottom_navigation_bar_provider.dart';
+import 'package:potenday/src/view/template/main_template.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized(); // must be above all
+
+  // sqlite
+  SQLiteConfig();
+
+  runApp(
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (BuildContext context) => BottomNavigationBarProvider(),
+          )
+        ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,12 +28,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('My App'),
-        ),
-        body: const Text("Hello World!"),
-      )
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const MainTemplate(),
+        // '/': (context) => const PermissionTemplate(),
+        // '/login': (context) => const LoginTemplate(),
+        // '/terms': (context) => const SignTermsTemplate(),
+        // '/home': (context) => const MainTemplate(),
+      },
     );
   }
 }

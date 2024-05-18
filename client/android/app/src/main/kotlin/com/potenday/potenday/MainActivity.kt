@@ -1,4 +1,4 @@
-package com.potenday.potenday
+package com.potenday.bsideApp405
 
 import io.flutter.embedding.android.FlutterActivity
 
