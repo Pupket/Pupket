@@ -55,3 +55,24 @@ application:
       secret: whifa3452efwihn15ajkdvawuocnawclejhfgrow84afwjenoh43829r2huifnjkae
       expiration: 10800
       refresh: 75600
+
+
+springdoc:
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: swagger
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: method
+    doc-expansion: none
+
+
+jpa:
+  properties:
+    hibernate:
+      show_sql: true
+      format_sql: true
+
+  hibernate:
+    ddl-auto: update
