@@ -49,6 +49,24 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
+# 원하는 DB로 설정
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/pupcket
+#    username: sunro
+#    password: leesunro12
+
+  jpa:
+#    dialect: org.hibernate.dialect.MySQL8Dialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+
+
+#jwt
 application:
   security:
     jwt:
@@ -57,6 +75,7 @@ application:
       refresh: 75600
 
 
+#Swagger
 springdoc:
   default-consumes-media-type: application/json;charset=UTF-8
   default-produces-media-type: application/json;charset=UTF-8
@@ -68,11 +87,8 @@ springdoc:
     doc-expansion: none
 
 
-jpa:
-  properties:
-    hibernate:
-      show_sql: true
-      format_sql: true
 
-  hibernate:
-    ddl-auto: update
+
+
+
+
