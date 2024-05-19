@@ -12,12 +12,18 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 public enum ErrorCode {
     NOT_HANDLED_EXCEPTION(INTERNAL_SERVER_ERROR, "Error", 900),
 
-    DUPLICATE_RESOURCE(CONFLICT, "error.duplicate.resource", 1),
+    DUPLICATE_RESOURCE(CONFLICT, "Duplicate Resource", 1),
     INVALID_PARAMETER(BAD_REQUEST, "BAD Request", 2),
-    INVALID_AUTHENTICATION(UNAUTHORIZED, "잘못된 인증입니다.", 3),
+    INVALID_AUTHENTICATION(UNAUTHORIZED, "Invalid Authentication", 3),
     INVALID_TOKEN(UNAUTHORIZED, "Invalid Token", 4),
     MALFORMED_TOKEN(UNAUTHORIZED, "Malformed Token", 5),
     EXPIRED_TOKEN(UNAUTHORIZED, "Expired Token", 6),
+    USER_NOT_FOUND(NOT_FOUND, "Can't find User", 7),
+    ILLEGAL_ARGUMENT(BAD_REQUEST, "Illegal Argument", 8),
+
+
+
+
 
     ;
 

@@ -1,4 +1,7 @@
 spring:
+  web:
+    resources:
+      add-mappings: false
   # 원하는 DB로 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

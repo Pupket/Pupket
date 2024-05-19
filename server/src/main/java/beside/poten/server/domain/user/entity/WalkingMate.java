@@ -1,18 +1,24 @@
 package beside.poten.server.domain.user.entity;
 
 import beside.poten.server.domain.user.constant.WalkingMatePreferredDogSize;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class WalkingMate {
     @Id
-    @GeneratedValue
-    private Integer walkingMateId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "walking_mate_id")
+    private Long walkingMateId;
 
     @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String experience;
