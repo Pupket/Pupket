@@ -8,6 +8,7 @@ import beside.poten.server.domain.user.service.FileService;
 import beside.poten.server.domain.user.service.UserService;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,7 @@ public class UserController {
 
 
 
+    @Schema(description = "일반회원가입")
     @PostMapping("/sign-up")
     public ResponseEntity signUp(@RequestBody SignUpReq signUpReq) throws BadRequestException {
         log.info(signUpReq.getEmail());
@@ -51,6 +53,7 @@ public class UserController {
 
     }
 
+    @Schema(description = "소셜 회원 추가정보 요청 ")
     @PostMapping("/social/sign-up")
     @PreAuthorize("hasRole('GUEST') ")
     public ResponseEntity socialSignUp(@RequestBody SocialSignUpReq socialSignUpReq, HttpServletRequest request) {
@@ -63,6 +66,7 @@ public class UserController {
 
     }
 
+    @Schema(description = "회원 정보 수정")
     @PatchMapping("/update/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody UpdateReq updateReq) throws BadRequestException {
@@ -72,6 +76,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
     }
 
+    @Schema(description = "회원 철회")
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity delete(@PathVariable("id") Long id) throws BadRequestException {
@@ -82,6 +87,7 @@ public class UserController {
 
     }
 
+    @Schema(description = "테스트용 파일 업로드")
     @PostMapping("/file-upload")
     public ResponseEntity fileDownload(@PathVariable("fileNo")MultipartFile multipartFile) throws IOException {
         fileService.saveFile(multipartFile);
@@ -90,6 +96,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @Schema(description = "테스트용 파일 다운로드")
     @GetMapping("/fild-download")
     public ResponseEntity<UrlResource> downloadImage(String originalFilename) {
 
