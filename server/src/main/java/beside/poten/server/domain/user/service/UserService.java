@@ -6,22 +6,20 @@ import beside.poten.server.domain.user.constant.UserStatus;
 import beside.poten.server.domain.user.dto.SignUpReq;
 import beside.poten.server.domain.user.dto.SocialSignUpReq;
 import beside.poten.server.domain.user.dto.UpdateReq;
-import beside.poten.server.domain.user.entity.QUser;
 import beside.poten.server.domain.user.entity.User;
 import beside.poten.server.domain.user.repository.UserRepository;
 import beside.poten.server.global.jwt.service.JwtService;
+import com.amazonaws.services.s3.AmazonS3;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.BadRequestException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static beside.poten.server.domain.user.entity.QUser.*;
@@ -29,12 +27,19 @@ import static beside.poten.server.domain.user.entity.QUser.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class userService {
+public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final JPAQueryFactory jpaQueryFactory;
+
+
+    private final AmazonS3 amazonS3;
+
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucketName;
 
 
 
@@ -134,4 +139,5 @@ public class userService {
             throw new BadRequestException();
         }
     }
+
 }
