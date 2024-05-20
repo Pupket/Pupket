@@ -29,6 +29,14 @@ jobs:
     - name: Spring Boot Build
       run: cd ./server && ./gradlew clean build -x test
     
+    # Copy secret
+    - name: Copy secret
+      env:
+        OCCUPY_SECRET: ${{ secrets.OCCUPY_SECRET }}
+        OCCUPY_SECRET_DIR: server/src/main/resources
+        OCCUPY_SECRET_DIR_FILE_NAME: application-secret.yml
+      run: echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
+    
     # Docker 이미지 Build (2)
     - name: Docker image build
       run: cd ./server && docker build -t leesunro/pupcket:temp .
