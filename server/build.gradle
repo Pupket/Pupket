@@ -75,3 +75,7 @@ tasks.withType(JavaCompile).configureEach {
 clean.doLast {
     delete file(generated)
 }
+
+jar {
+    enabled = false
+}
