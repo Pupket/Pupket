@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 @RestController
 @RequiredArgsConstructor
@@ -89,28 +90,36 @@ public class UserController {
 
     @Schema(description = "테스트용 파일 업로드")
     @PostMapping("/file-upload")
-    public ResponseEntity fileDownload(@PathVariable("fileNo")MultipartFile multipartFile) throws IOException {
+    public ResponseEntity fileDownload(@RequestParam("test")  MultipartFile multipartFile) throws IOException {
+        if (multipartFile != null) {
         fileService.saveFile(multipartFile);
+
+        }else{
+            log.info("multipartFile={}",multipartFile);
+        }
 
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @Schema(description = "테스트용 파일 다운로드")
-    @GetMapping("/fild-download")
-    public ResponseEntity<UrlResource> downloadImage(String originalFilename) {
+    @GetMapping("/file-download")
+    public ResponseEntity<UrlResource> downloadImage(String originalFilename) throws MalformedURLException {
 
 
-        UrlResource urlResource = new UrlResource(amazonS3.getUrl(bucket, originalFilename));
-        String contentDisposition = "attachment; filename=\"" +  originalFilename + "\"";
+        // NCP Object Storage의 파일 URL을 생성
+        String fileUrl = "https://kr.object.ncloudstorage.com/" + bucket + "/" + originalFilename;
+        UrlResource urlResource = new UrlResource(fileUrl);
 
-
-
+        log.info("urlResource={}", urlResource);
+        String contentDisposition = "attachment; filename=\"" + originalFilename + "\"";
+        log.info("contentDisposition={}", contentDisposition);
 
         // header에 CONTENT_DISPOSITION 설정을 통해 클릭 시 다운로드 진행
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition)
                 .body(urlResource);
+
 
     }
 

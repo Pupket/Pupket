@@ -1,10 +1,10 @@
 cloud:
   aws:
     s3:
-      bucket: pupcket
+      bucket: pupcket-bucket
       credentials:
-        access-key: ULO9QjM32qlOv0mwYyvK4CcduLGICWWbxDcPGHqN
-        secret-key: mKu6sXtubwLWNZKZMzEcy2RgxTKRFo4xQfRfFxDP
+        access-key: 6CfOKBAU6yf0l7vk7doL
+        secret-key: PMEb19qj1PkUfPvAwRDHF3JlECQjD3SlkJiufL8D
       stack:
         auto: false
       region:
