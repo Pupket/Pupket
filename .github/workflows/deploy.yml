@@ -31,7 +31,7 @@ jobs:
     
     # Docker 이미지 Build (2)
     - name: Docker image build
-      run: cd ./Pupket/server && docker build -t leesunro/pupcket:temp .
+      run: cd ./server && docker build -t leesunro/pupcket:temp .
     
     # DockerHub Login (3)
     - name: Docker login
