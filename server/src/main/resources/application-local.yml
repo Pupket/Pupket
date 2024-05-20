@@ -5,9 +5,9 @@ spring:
   # 원하는 DB로 설정
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/pupcket
-    username: sunro
-    password: leesunro12
+    url: jdbc:mysql://db-n2mid-kr.vpc-pub-cdb.ntruss.com:3306/pupcket
+    username: pupcket
+    password: Group0000-
 
   jpa:
     dialect: org.hibernate.dialect.MySQL8Dialect
