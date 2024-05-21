@@ -20,7 +20,6 @@ public class SocialSignUpReq {
 
     private String contact;
 
-    private String address;
 
     private String birthDay;
 }

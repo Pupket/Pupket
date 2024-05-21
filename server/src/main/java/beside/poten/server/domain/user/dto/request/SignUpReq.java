@@ -19,12 +19,13 @@ public class SignUpReq {
 
     private String nickname;
 
-    private String address;
 
 
     private String contact;
 
     private String gender;
+
+    private String birthDay;
 
 
 

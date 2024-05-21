@@ -19,12 +19,9 @@ public class FindUserReq {
 
     private String nickname;
 
-    private String address;
-
     private String contact;
 
     private String gender;
 
-    private String profileImg;
 
 }

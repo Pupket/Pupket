@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 import static beside.poten.server.domain.user.entity.QUser.*;
@@ -45,37 +47,26 @@ public class UserService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucketName;
 
-
-
-
-
-
-
-    public void signUp(SignUpReq signUpReq, MultipartFile profileImg) throws IOException {
+    public void signUp(SignUpReq signUpReq) throws IOException {
 
 
         if (signUpReq.getEmail() == null || signUpReq.getPassword() == null) {
             throw new BadRequestException("아이디 또는 비밀번호가 비어 있습니다.");
         }
-
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate birth = LocalDate.parse(signUpReq.getBirthDay(), formatter);
 
         User user = User.builder()
                 .email(signUpReq.getEmail())
                 .password(signUpReq.getPassword())
                 .name(signUpReq.getName())
-                .address(signUpReq.getAddress())
                 .contact(signUpReq.getContact())
                 .nickname(signUpReq.getNickname())
                 .role(RoleType.USER)
                 .status(UserStatus.ACTIVE)
                 .gender(UserGender.valueOf(signUpReq.getGender()))
+                .birthDay(birth)
                 .build();
-
-        if (profileImg != null) {
-            String newName = fileService.convertName(profileImg.getOriginalFilename());
-            user.updateProfileImg(newName);
-            fileService.saveFile(profileImg, newName);
-        }
 
 
 
@@ -92,7 +83,7 @@ public class UserService {
 
 
 
-    public User signUpSocialMember(SocialSignUpReq socialSignUpReq, HttpServletRequest request, MultipartFile profileImg) throws IOException {
+    public User signUpSocialMember(SocialSignUpReq socialSignUpReq, HttpServletRequest request) throws IOException {
 
         String accessToken = jwtService.extractAccessToken(request);
         log.info("accessToken =" + accessToken);
@@ -108,15 +99,10 @@ public class UserService {
                 socialSignUpReq.getNickname(),
                 socialSignUpReq.getBirthDay(),
                 socialSignUpReq.getContact(),
-                socialSignUpReq.getAddress(),
                 UserGender.valueOf(socialSignUpReq.getGender())
         );
 
-        if (profileImg != null) {
-            String newName = fileService.convertName(profileImg.getOriginalFilename());
-            findMember.updateProfileImg(newName);
-            fileService.saveFile(profileImg, newName);
-        }
+
         findMember.updateIsDeleted("N");
         findMember.updateCreateDate();
         findMember.updateLastModifed();
@@ -126,34 +112,24 @@ public class UserService {
 
     }
 
-    public FindUserReq update(int id, UpdateReq updateReq, MultipartFile profileImg) throws IOException {
+    public FindUserReq update(int id, UpdateReq updateReq) throws IOException {
         Optional<User> findMemberById = userRepository.findById(Long.valueOf(id));
         if(findMemberById.isPresent()) {
             User findMember = findMemberById.get();
 
             findMember.updateMember(
-                    updateReq.getName(),
                     updateReq.getNickname(),
-                    updateReq.getProfileImage(),
-                    updateReq.getContact(),
-                    updateReq.getAddress()
+                    updateReq.getContact()
             );
 
-            if (profileImg != null) {
-                String newName = fileService.convertName(profileImg.getOriginalFilename());
-                findMember.updateProfileImg(newName);
-                fileService.deleteFile(findMember.getProfileImage());
-                fileService.saveFile(profileImg, newName);
-            }
             userRepository.save(findMember);
 
             return FindUserReq.builder()
                     .id(findMember.getId())
                     .name(findMember.getName())
-                    .profileImg(findMember.getProfileImage())
                     .contact(findMember.getContact())
-                    .address(findMember.getAddress())
                     .nickname(findMember.getNickname())
+                    .gender(String.valueOf(findMember.getGender()))
                     .build();
 
 
@@ -189,9 +165,7 @@ public class UserService {
         return FindUserReq.builder()
                 .id(findMember.getId())
                 .name(findMember.getName())
-                .profileImg(findMember.getProfileImage())
                 .contact(findMember.getContact())
-                .address(findMember.getAddress())
                 .nickname(findMember.getNickname())
                 .gender(String.valueOf(findMember.getGender()))
                 .build();
@@ -209,27 +183,26 @@ public class UserService {
         return FindUserReq.builder()
                 .id(findMember.getId())
                 .name(findMember.getName())
-                .profileImg(findMember.getProfileImage())
                 .contact(findMember.getContact())
-                .address(findMember.getAddress())
                 .nickname(findMember.getNickname())
+                .gender(String.valueOf(findMember.getGender()))
                 .build();
 
     }
 
-    public byte[] findPorfileImg(HttpServletRequest request) throws IOException {
-
-        String accessToken = jwtService.extractAccessToken(request);
-        log.info("accessToken =" + accessToken);
-        String loginId=  jwtService.extractLoginIdFromAccessToken(accessToken);
-
-        log.info("loginId={}",loginId);
-
-        User findMember = userRepository.findByEmail(loginId).get();
-
-
-        return fileService.loadFileInS3(findMember.getProfileImage(), request);
-
-
-    }
+//    public byte[] findPorfileImg(HttpServletRequest request) throws IOException {
+//
+//        String accessToken = jwtService.extractAccessToken(request);
+//        log.info("accessToken =" + accessToken);
+//        String loginId=  jwtService.extractLoginIdFromAccessToken(accessToken);
+//
+//        log.info("loginId={}",loginId);
+//
+//        User findMember = userRepository.findByEmail(loginId).get();
+//
+//
+//        return fileService.loadFileInS3(findMember.getProfileImage(), request);
+//
+//
+//    }
 }

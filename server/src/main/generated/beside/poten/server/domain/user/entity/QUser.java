@@ -21,8 +21,6 @@ public class QUser extends EntityPathBase<User> {
 
     public final beside.poten.server.global.superClass.entity.QAbstractTimeStamp _super = new beside.poten.server.global.superClass.entity.QAbstractTimeStamp(this);
 
-    public final StringPath address = createString("address");
-
     public final DatePath<java.time.LocalDate> birthDay = createDate("birthDay", java.time.LocalDate.class);
 
     public final StringPath contact = createString("contact");
@@ -49,8 +47,6 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath oauth2Id = createString("oauth2Id");
 
     public final StringPath password = createString("password");
-
-    public final StringPath profileImage = createString("profileImage");
 
     public final StringPath refreshToken = createString("refreshToken");
 

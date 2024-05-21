@@ -40,7 +40,7 @@ public class FileService {
     }
 
 
-    //TODO:: 파일 유효성 검사, 저장할때 명명 규칙 정하기
+    //TODO:: 파일 유효성 검사
     public String saveFile(MultipartFile multipartFile, String newName) throws IOException {
 
         ObjectMetadata metadata = new ObjectMetadata();

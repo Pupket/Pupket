@@ -46,9 +46,6 @@ public class User extends AbstractTimeStamp {
     @Enumerated(value = EnumType.STRING)
     private UserGender gender;
 
-    private String address;
-
-    private String profileImage;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
@@ -71,33 +68,26 @@ public class User extends AbstractTimeStamp {
         this.password = password.encode(this.password);
     }
 
-    public void updateKakaoMember(String name, String nickname, String birthDay, String contact, String address, UserGender gender) {
+    public void updateKakaoMember(String name, String nickname, String birthDay, String contact, UserGender gender) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         this.name = name;
         this.nickname = nickname;
-        this.profileImage = profileImage;
         this.birthDay = LocalDate.parse(birthDay,formatter);
         this.contact = contact;
-        this.address = address;
         this.role = RoleType.USER;
         this.status = UserStatus.ACTIVE;
         this.gender = gender;
 
     }
-    public void updateMember(String name, String nickname, String profileImage, String contact, String address) {
+    public void updateMember( String nickname, String contact) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.name = name;
         this.nickname = nickname;
-        this.profileImage = profileImage;
         this.contact = contact;
-        this.address = address;
 
 
 
     }
 
-    public void updateProfileImg(String profileImg) {
-        this.profileImage = profileImg;
-    }
+
 }

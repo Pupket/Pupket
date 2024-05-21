@@ -12,8 +12,5 @@ import lombok.NoArgsConstructor;
 public class UpdateReq {
     private String name;
     private String nickname;
-    private String address;
-    private String profileImage;
     private String contact;
-
 }
