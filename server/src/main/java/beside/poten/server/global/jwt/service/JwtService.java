@@ -6,6 +6,9 @@ import beside.poten.server.domain.user.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
@@ -19,6 +22,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -104,25 +108,25 @@ public class JwtService {
         if (!header.startsWith(BEARER)) {
             throw new AuthenticationServiceException("Refresh Token 헤더가 올바르지 않습니다.");
         }
-        log.info("extractRefreshToken={}",header.replace(BEARER, ""));
+        log.info("extractRefreshToken={}", header.replace(BEARER, ""));
         return header.replace(BEARER, "").trim();
 
     }
 
     public String extractAccessToken(HttpServletRequest request) {
-            String header = request.getHeader(accessHeader);
+        String header = request.getHeader(accessHeader);
         if (header == null) {
             throw new AuthenticationServiceException("Access Token 헤더가 없습니다.");
         }
         if (!header.startsWith(BEARER)) {
             throw new AuthenticationServiceException("Access Token 헤더가 올바르지 않습니다.");
         }
-        log.info("ExtractaccessToken={}",header.replace(BEARER, ""));
-                return header.split(" ")[1];
+        log.info("ExtractaccessToken={}", header.replace(BEARER, ""));
+        return header.split(" ")[1];
 
     }
 
-    public String getEmail(String accessToken){
+    public String getEmail(String accessToken) {
         return JWT
                 .require(Algorithm.HMAC512(secretKey))
                 .build()
@@ -172,6 +176,20 @@ public class JwtService {
                 .asString();
     }
 
-
+    public Map<String, Object> verifyJWT(String jwt) {
+        Map<String, Object> claimMap = null;
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secretKey.getBytes("UTF-8")) // Set Key
+                    .parseClaimsJws(jwt) // 파싱 및 검증, 실패 시 에러
+                    .getBody();
+            claimMap = claims;
+        } catch (ExpiredJwtException e) { // 토큰이 만료되었을 경우
+            System.out.println(e);
+        } catch (Exception e) { // 그외 에러났을 경우
+            System.out.println(e);
+        }
+        return claimMap;
+    }
 
 }

@@ -35,6 +35,8 @@ dependencies {
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.1.0'
     testImplementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-api', version: '2.1.0'
 
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
     annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"

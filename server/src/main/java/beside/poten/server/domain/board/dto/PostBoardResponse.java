@@ -1,57 +1,39 @@
-package beside.poten.server.domain.board.entity;
+package beside.poten.server.domain.board.dto;
 
 import beside.poten.server.domain.board.constant.BoardDeleted;
-import beside.poten.server.domain.user.entity.User;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
-@Entity
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
+public class PostBoardResponse {
     private Integer boardId;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private LocalDateTime createdDate;
 
     private LocalDateTime modifiedDate;
 
-    @Column(nullable = false)
     private String walkingDog;
 
     private String pickupLocation;
 
-    @Column(nullable = false)
     private LocalDateTime walkingStartTime;
 
-    @Column(nullable = false)
     private LocalDateTime walkingEndTime;
 
     private String walkingLocationRecommended;
 
-    @Column(nullable = false)
     private Integer fee;
 
-    @Column(nullable = false)
     private String contact;
 
-    @Column(nullable = false)
     private BoardDeleted deleted;
-
-    @ManyToOne
-    private User userId;
 }
