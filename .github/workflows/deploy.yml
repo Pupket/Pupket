@@ -62,3 +62,21 @@ jobs:
     # Docker Hub push (4)
     - name: Docker Hub push
       run: docker push leesunro/pupcket:temp
+
+
+    # Deploy to Ec2 (5)
+    - name: Deploy to Prod
+      uses: appleboy/ssh-action@master
+      id: deploy-prod
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        password: ${{ secrets.EC2_PRIVATE_KEY }}
+        port : 22
+        envs: GITHUB_SHA
+        script: |
+           docker stop pupcket
+           docker rm pupcket
+           sudo docker pull ${{ secrets.DOCKER_REPO }}/pupcket:temp
+           docker run -d --name pupcket -p 8080:8080 --rm ${{ secrets.DOCKER_REPO }}/pupcket:temp
+           docker rmi -f $(docker images -f "dangling=true" -q)
