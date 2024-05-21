@@ -10,7 +10,6 @@ import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -72,7 +71,7 @@ public class User extends AbstractTimeStamp {
         this.password = password.encode(this.password);
     }
 
-    public void updateKakaoMember(String name, String nickname, String profileImage, String birthDay, String contact, String address) {
+    public void updateKakaoMember(String name, String nickname, String profileImage, String birthDay, String contact, String address, UserGender gender) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         this.name = name;
@@ -83,6 +82,7 @@ public class User extends AbstractTimeStamp {
         this.address = address;
         this.role = RoleType.USER;
         this.status = UserStatus.ACTIVE;
+        this.gender = gender;
 
     }
     public void updateMember(String name, String nickname, String profileImage, String contact, String address) {

@@ -92,8 +92,8 @@ public class UserService {
                 socialSignUpReq.getProfileImage(),
                 socialSignUpReq.getBirthDay(),
                 socialSignUpReq.getContact(),
-                socialSignUpReq.getAddress()
-
+                socialSignUpReq.getAddress(),
+                UserGender.valueOf(socialSignUpReq.getGender())
         );
         findMember.updateIsDeleted("N");
         findMember.updateCreateDate();

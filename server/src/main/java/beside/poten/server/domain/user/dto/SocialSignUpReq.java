@@ -18,7 +18,7 @@ public class SocialSignUpReq {
 
     private String nickname;
 
-    private UserGender gender;
+    private String gender;
 
     private String profileImage;
 
