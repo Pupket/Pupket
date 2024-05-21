@@ -1,12 +1,9 @@
-package beside.poten.server.domain.user.dto;
+package beside.poten.server.domain.user.dto.request;
 
-import beside.poten.server.domain.user.constant.UserGender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -20,7 +17,6 @@ public class SocialSignUpReq {
 
     private String gender;
 
-    private String profileImage;
 
     private String contact;
 
