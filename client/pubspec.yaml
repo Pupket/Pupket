@@ -55,14 +55,16 @@ flutter:
   assets:
     - assets/images/
 
-#  fonts:
-#    - family: NanumSquareRound
-#      fonts:
-#        - asset: assets/fonts/NanumSquareRoundB.ttf
-#        - asset: assets/fonts/NanumSquareRoundEB.ttf
-#        - asset: assets/fonts/NanumSquareRoundL.ttf
-#        - asset: assets/fonts/NanumSquareRoundR.ttf
-#        - asset: assets/fonts/NanumSquareRoundOTFB.otf
-#        - asset: assets/fonts/NanumSquareRoundOTFEB.otf
-#        - asset: assets/fonts/NanumSquareRoundOTFL.otf
-#        - asset: assets/fonts/NanumSquareRoundOTFR.otf
+  fonts:
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR-Black.ttf
+        - asset: assets/fonts/NotoSansKR-Bold.ttf
+        - asset: assets/fonts/NotoSansKR-ExtraBold.ttf
+        - asset: assets/fonts/NotoSansKR-ExtraLight.ttf
+        - asset: assets/fonts/NotoSansKR-Light.ttf
+        - asset: assets/fonts/NotoSansKR-Medium.ttf
+        - asset: assets/fonts/NotoSansKR-Regular.ttf
+        - asset: assets/fonts/NotoSansKR-SemiBold.ttf
+        - asset: assets/fonts/NotoSansKR-Thin.ttf
+

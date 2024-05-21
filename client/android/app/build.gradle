@@ -22,18 +22,26 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
-android {
-    namespace "com.potenday.potenday"
-    compileSdk flutter.compileSdkVersion
-    ndkVersion flutter.ndkVersion
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+android {
+    namespace "com.potenday.bsideApp405"
+    compileSdkVersion 34
+    buildToolsVersion "34"
+    ndkVersion "25.1.8937393"
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_17.toString()
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     sourceSets {
@@ -42,13 +50,20 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.potenday.potenday"
+        applicationId "com.potenday.bsideApp405"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 23
+        targetSdkVersion 33
+        multiDexEnabled = true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        versionCode 1
+        versionName "0.0.1"
+    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.android.gms:play-services-location:20.0.0'
     }
 
     buildTypes {
