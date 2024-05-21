@@ -71,7 +71,7 @@ public class User extends AbstractTimeStamp {
         this.password = password.encode(this.password);
     }
 
-    public void updateKakaoMember(String name, String nickname, String profileImage, String birthDay, String contact, String address, UserGender gender) {
+    public void updateKakaoMember(String name, String nickname, String birthDay, String contact, String address, UserGender gender) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         this.name = name;
@@ -97,4 +97,7 @@ public class User extends AbstractTimeStamp {
 
     }
 
+    public void updateProfileImg(String profileImg) {
+        this.profileImage = profileImg;
+    }
 }
