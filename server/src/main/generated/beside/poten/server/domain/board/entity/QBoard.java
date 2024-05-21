@@ -26,13 +26,13 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final StringPath contact = createString("contact");
 
-    public final DateTimePath<java.util.Date> createdDate = createDateTime("createdDate", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> createdDate = createDateTime("createdDate", java.time.LocalDateTime.class);
 
     public final EnumPath<beside.poten.server.domain.board.constant.BoardDeleted> deleted = createEnum("deleted", beside.poten.server.domain.board.constant.BoardDeleted.class);
 
     public final NumberPath<Integer> fee = createNumber("fee", Integer.class);
 
-    public final DateTimePath<java.util.Date> modifiedDate = createDateTime("modifiedDate", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = createDateTime("modifiedDate", java.time.LocalDateTime.class);
 
     public final StringPath pickupLocation = createString("pickupLocation");
 
@@ -42,11 +42,11 @@ public class QBoard extends EntityPathBase<Board> {
 
     public final StringPath walkingDog = createString("walkingDog");
 
-    public final DateTimePath<java.util.Date> walkingEndTime = createDateTime("walkingEndTime", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> walkingEndTime = createDateTime("walkingEndTime", java.time.LocalDateTime.class);
 
     public final StringPath walkingLocationRecommended = createString("walkingLocationRecommended");
 
-    public final DateTimePath<java.util.Date> walkingStartTime = createDateTime("walkingStartTime", java.util.Date.class);
+    public final DateTimePath<java.time.LocalDateTime> walkingStartTime = createDateTime("walkingStartTime", java.time.LocalDateTime.class);
 
     public QBoard(String variable) {
         this(Board.class, forVariable(variable), INITS);
