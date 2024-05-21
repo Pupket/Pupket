@@ -1,4 +1,4 @@
-package beside.poten.server.domain.user.dto;
+package beside.poten.server.domain.user.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
