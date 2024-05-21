@@ -1,4 +1,4 @@
-package beside.poten.server.domain.user.dto;
+package beside.poten.server.domain.user.dto.request;
 
 
 import jakarta.validation.constraints.Email;
@@ -21,7 +21,6 @@ public class SignUpReq {
 
     private String address;
 
-    private String profileImage;
 
     private String contact;
 
