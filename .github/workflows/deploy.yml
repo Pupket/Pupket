@@ -72,12 +72,11 @@ jobs:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
         password: ${{ secrets.EC2_PRIVATE_KEY }}
-        port : 22
-        envs: GITHUB_SHA,AWS_ACCESS_KEY,AWS_SECRET_KEY        
+        port: 22
+        envs: GITHUB_SHA,AWS_ACCESS_KEY,AWS_SECRET_KEY,DB_SERVER,DB_USERNAME,DB_PASSWORD
         script: |
            docker stop pupcket
            docker rm pupcket
            sudo docker pull ${{ secrets.DOCKER_REPO }}/pupcket:temp
-           docker run -d --name pupcket -p 8080:8080 --env AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} --env AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --rm ${{ secrets.DOCKER_REPO }}/pupcket:temp           
+           docker run -d --name pupcket -p 8080:8080 --env AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} --env AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --env DB_SERVER=${{ secrets.DB_SERVER }} --env DB_USERNAME=${{ secrets.DB_USERNAME }} --env DB_PASSWORD=${{ secrets.DB_PASSWORD }} --rm ${{ secrets.DOCKER_REPO }}/pupcket:temp           
            docker rmi -f $(docker images -f "dangling=true" -q)
-     
