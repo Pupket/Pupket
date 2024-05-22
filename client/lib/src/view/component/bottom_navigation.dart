@@ -12,7 +12,6 @@ class BottomNavigation extends StatelessWidget {
       'index': 0,
       'route': '/home',
       'image': 'assets/images/nav_btn_home.png',
-      'selectedImage': 'assets/images/nav_btn_home_active.png',
       'name': '홈'
     },
     {
@@ -26,21 +25,18 @@ class BottomNavigation extends StatelessWidget {
       'index': 2,
       'route': '/my_walk',
       'image': 'assets/images/nav_btn_my_walk.png',
-      'selectedImage': 'assets/images/nav_btn_my_walk_active.png',
       'name': '내산책'
     },
     {
       'index': 3,
       'route': '/profile',
       'image': 'assets/images/nav_btn_profile.png',
-      'selectedImage': 'assets/images/nav_btn_profile_active.png',
       'name': '프로필'
     },
     {
       'index': 4,
       'route': '/my_page',
       'image': 'assets/images/nav_btn_my_page.png',
-      'selectedImage': 'assets/images/nav_btn_my_page_active.png',
       'name': '마이페이지'
     },
   ];
@@ -54,25 +50,26 @@ class BottomNavigation extends StatelessWidget {
     final double deviceHeight = GlobalVariables.height;
 
     return Container(
-      color: CustomColor.backgroundColor,
+      color: CustomColor.lightBackgroundColor,
       child: Container(
         width: deviceWidth,
-        height: 107,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(120),
-            topRight: Radius.circular(120),
-          ),
-          color: Color(0xFFF6F6F6),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 10.0,
-              spreadRadius: 0.0,
-              offset: Offset(-5, -1),
-            ),
-          ],
-        ),
+        height: 83,
+        color: const Color(0x19000000),
+        // decoration: const BoxDecoration(
+        //   borderRadius: BorderRadius.only(
+        //     topLeft: Radius.circular(120),
+        //     topRight: Radius.circular(120),
+        //   ),
+        //   color: Color(0xFFF6F6F6),
+        //   boxShadow: [
+        //     BoxShadow(
+        //       color: Colors.grey,
+        //       blurRadius: 10.0,
+        //       spreadRadius: 0.0,
+        //       offset: Offset(-5, -1),
+        //     ),
+        //   ],
+        // ),
         child: Center(
           child: SizedBox(
             child: Row(
@@ -80,80 +77,47 @@ class BottomNavigation extends StatelessWidget {
               children: [
                 const Spacer(flex: 1),
                 ...menuList.map((e) {
-                  // if (bottomNavigationBarProvider.currentIndex == 5) {
-                  //   return GestureDetector(
-                  //     onTap: () {
-                  //       bottomNavigationBarProvider.currentIndex = e['index'];
-                  //       Navigator.pushNamed(context, e['route']);
-                  //     },
-                  //     child: Container(
-                  //       padding: const EdgeInsets.only(top: 35),
-                  //       color: Colors.transparent,
-                  //       width: (deviceWidth - 72) / 5,
-                  //       child: Center(
-                  //         child: Column(
-                  //           children: [
-                  //             SizedBox(
-                  //               width: 30,
-                  //               height: 30,
-                  //               child: Image.asset(
-                  //                 e['image'],
-                  //                 fit: BoxFit.contain,
-                  //               ),
-                  //             ),
-                  //             Text(
-                  //               e['name'],
-                  //               textAlign: TextAlign.center,
-                  //               style: TextStyle(
-                  //                 color: const Color(0xFFDBD5CC),
-                  //                 fontSize: 12,
-                  //                 fontFamily: 'NotoSansKR',
-                  //                 fontWeight: FontWeight.w500,
-                  //                 height: 2.0,
-                  //               ),
-                  //             ),
-                  //           ],
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   );
-                  // }
                   return GestureDetector(
                     onTap: () {
                       bottomNavigationBarProvider.currentIndex = e['index'];
                       Navigator.pushNamed(context, e['route']);
                     },
-                    child: Container(
-                      padding: const EdgeInsets.only(top: 35),
-                      color: Colors.transparent,
-                      width: (deviceWidth - 72) / 5,
+                    child: SizedBox(
+                      width: (deviceWidth - 80) / 4,
                       child: Center(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: Image.asset(
-                                bottomNavigationBarProvider.currentIndex == e['index']
-                                    ? e['selectedImage']
-                                    : e['image'],
-                                fit: BoxFit.contain,
+                        child: Container(
+                          padding: const EdgeInsets.only(top: 4),
+                          width: 58,
+                          height: 58,
+                          decoration: bottomNavigationBarProvider.currentIndex == e['index']
+                              ? BoxDecoration(
+                            color: Colors.black.withOpacity(0.2), // 반투명한 검정색
+                            borderRadius: BorderRadius.circular(8.0),
+                          )
+                              : null,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Image.asset(
+                                  e['image'],
+                                  fit: BoxFit.contain,
+                                ),
                               ),
-                            ),
-                            Text(
-                              e['name'],
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: bottomNavigationBarProvider.currentIndex == e['index']
-                                    ? const Color(0xFF4C433F)
-                                    : const Color(0xFFDBD5CC),
-                                fontSize: 12,
-                                fontFamily: 'NotoSansKR',
-                                fontWeight: FontWeight.w500,
-                                height: 2.0,
+                              Text(
+                                e['name'],
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Color(0xFF4C433F),
+                                  fontSize: 12,
+                                  fontFamily: 'NotoSansKR',
+                                  fontWeight: FontWeight.w500,
+                                  height: 2.0,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

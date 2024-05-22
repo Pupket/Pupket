@@ -20,7 +20,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         Container(
           height: defaultHeight * 0.65,
           decoration: const BoxDecoration(
-            color: CustomColor.backgroundColor,
+            color: CustomColor.lightBackgroundColor,
             // boxShadow: [
             //   BoxShadow(
             //     color: Colors.grey,

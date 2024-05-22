@@ -41,7 +41,7 @@ class _MainTemplateState extends State<MainTemplate> {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: CustomColor.backgroundColor,
+        statusBarColor: CustomColor.lightBackgroundColor,
       ),
       child: PopScope(
         canPop: true,
