@@ -49,12 +49,13 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+    - name: Move to Server Directory
+      run: |
+        cd Pupket/Pupket/server
+
     - name: Docker Compose build and push
       run: |
-        pwd
-        if [[ "$PWD" != */server ]]; then
-        cd ./server
-        fi
+      
         docker-compose -f ./server/docker-compose.yml build
         docker-compose -f ./server/docker-compose.yml push
 
@@ -67,10 +68,7 @@ jobs:
         port: 22
         envs: GITHUB_SHA,AWS_ACCESS_KEY,AWS_SECRET_KEY,DB_SERVER,DB_USERNAME,DB_PASSWORD
         script: |
-          pwd
-          if [[ "$PWD" != */server ]]; then
-          cd ./server
-          fi
+         
           docker-compose -f ./server/docker-compose.yml down
           docker-compose -f ./server/docker-compose.yml pull
           docker-compose -f ./server/docker-compose.yml up -d
