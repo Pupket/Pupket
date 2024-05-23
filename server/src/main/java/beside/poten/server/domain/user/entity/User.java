@@ -1,31 +1,93 @@
 package beside.poten.server.domain.user.entity;
 
-import beside.poten.server.domain.user.constant.Role;
+import beside.poten.server.domain.user.constant.SocialType;
+import beside.poten.server.domain.user.constant.UserGender;
+import beside.poten.server.domain.user.constant.RoleType;
+import beside.poten.server.domain.user.constant.UserStatus;
+import beside.poten.server.global.superClass.entity.AbstractTimeStamp;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Data
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static jakarta.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Builder
 @Getter
 @NoArgsConstructor
-@Entity
-public class User {
+@AllArgsConstructor
+public class User extends AbstractTimeStamp {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
     private String email;
 
-    @Column(unique = true, nullable = false)
-    private String oAuth2Id;
+    @Column(unique = true)
+    private String oauth2Id;
 
     @Column(unique = true)
     private String nickname;
 
-    @Column(unique = false)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private Role role;
+    private RoleType role;
+
+    private String name;
+
+    @Enumerated(value = EnumType.STRING)
+    private UserGender gender;
+
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserStatus status;
+
+    private String contact;
+
+    private String refreshToken;
+
+    @Enumerated(value = EnumType.STRING)
+    private SocialType socialType;
+
+    private LocalDate birthDay;
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public void encodePassword(PasswordEncoder password) {
+        this.password = password.encode(this.password);
+    }
+
+    public void updateKakaoMember(String name, String nickname, String birthDay, String contact, UserGender gender) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        this.name = name;
+        this.nickname = nickname;
+        this.birthDay = LocalDate.parse(birthDay,formatter);
+        this.contact = contact;
+        this.role = RoleType.USER;
+        this.status = UserStatus.ACTIVE;
+        this.gender = gender;
+
+    }
+    public void updateMember( String nickname, String contact) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.nickname = nickname;
+        this.contact = contact;
+
+
+
+    }
+
+
 }
