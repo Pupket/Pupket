@@ -165,6 +165,10 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
-*.yml
+application.yml
+application-auth.yml
+application-s3.yml
+application-jwt.yml
+application-local.yml
 
 /src/main/generated/
