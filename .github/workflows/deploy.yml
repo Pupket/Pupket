@@ -51,6 +51,7 @@ jobs:
 
     - name: Docker Compose build and push
       run: |
+        cd /
         docker-compose -f ./docker-compose.yml build
         docker-compose -f ./docker-compose.yml push
 
@@ -63,6 +64,7 @@ jobs:
         port: 22
         envs: GITHUB_SHA,AWS_ACCESS_KEY,AWS_SECRET_KEY,DB_SERVER,DB_USERNAME,DB_PASSWORD
         script: |
+          cd /
           docker-compose -f ./docker-compose.yml down
           docker-compose -f ./docker-compose.yml pull
           docker-compose -f ./docker-compose.yml up -d
