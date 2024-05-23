@@ -14,12 +14,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # JDK 17 설정 추가
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
 
+    ## gradle caching (빌드 시간 줄이기)
     - name: Gradle Caching
       uses: actions/cache@v3
       with:
@@ -30,28 +32,42 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
+    # Gradle Wrapper에 실행 권한 추가
     - name: Set up Gradle wrapper
       run: chmod +x ./server/gradlew
 
+    # Spring Boot 어플리케이션 Build (1)
     - name: Spring Boot Build
       run: cd ./server && ./gradlew clean build -x test
-
+    
+    # Copy secret
     - name: Copy secret
       env:
         OCCUPY_SECRET: ${{ secrets.OCCUPY_SECRET }}
         OCCUPY_SECRET_DIR: server/src/main/resources
         OCCUPY_SECRET_DIR_FILE_NAME: application-secret.yml
       run: echo $OCCUPY_SECRET | base64 --decode > $OCCUPY_SECRET_DIR/$OCCUPY_SECRET_DIR_FILE_NAME
-
-    - name: DockerHub Login
+    
+    # Docker 이미지 Build (2)
+    - name: Docker image build
+      run: cd ./server && docker build -t leesunro/pupcket:temp .
+    
+    # DockerHub Login (3)
+    - name: Docker login
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+    # Docker Hub push (4)
+    - name: Docker Hub push
+      run: docker push leesunro/pupcket:temp
 
+
+    # Deploy to Ec2 (5)
     - name: Deploy to Prod
       uses: appleboy/ssh-action@master
+      id: deploy-prod
       with:
         host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USERNAME }}
@@ -59,7 +75,62 @@ jobs:
         port: 22
         envs: GITHUB_SHA,AWS_ACCESS_KEY,AWS_SECRET_KEY,DB_SERVER,DB_USERNAME,DB_PASSWORD
         script: |
-          docker-compose -f ./server/docker-compose.yml down
-          docker-compose -f ./server/docker-compose.yml pull
-          docker-compose -f ./server/docker-compose.yml up -d
-          docker rmi -f $(docker images -f "dangling=true" -q)
+           docker stop pupcket
+           docker rm pupcket
+           sudo docker pull ${{ secrets.DOCKER_REPO }}/pupcket:temp
+           docker run -d --name pupcket -p 8080:8080 --env AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} --env AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --env DB_SERVER=${{ secrets.DB_SERVER }} --env DB_USERNAME=${{ secrets.DB_USERNAME }} --env DB_PASSWORD=${{ secrets.DB_PASSWORD }} --env SSL_PASSSWORD=${{ secrets.SSL_PASSWORD}} --rm ${{ secrets.DOCKER_REPO }}/pupcket:temp           
+           docker rmi -f $(docker images -f "dangling=true" -q)
+
+version: '3.3'
+
+services:
+  pupcket-server:
+    container_name: pupcket-server
+    build:
+      context: ./server
+    image: leesunro/pupcket:temp
+    environment:
+      - AWS_ACCESS_KEY=${AWS_ACCESS_KEY}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+      - DB_SERVER=${DB_SERVER}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - SSL_PASSWORD=${SSL_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - backbone
+
+  pupcket-nginx:
+    container_name: pupcket-nginx
+    image: nginx
+    restart: always
+    volumes:
+      - ./dev/nginx:/etc/nginx/conf.d
+      - /letsencrypt/certbot/conf:/etc/letsencrypt
+      - /letsencrypt/certbot/www:/var/www/certbot
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - pupcket-server
+    networks:
+      - backbone
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+      - /letsencrypt/certbot/conf:/etc/letsencrypt
+      - /letsencrypt/certbot/www:/var/www/certbot
+    depends_on:
+      - pupcket-nginx
+    networks:
+      - backbone
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+networks:
+  backbone:
+    driver: bridge
