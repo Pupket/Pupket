@@ -28,7 +28,7 @@ public class QDog extends EntityPathBase<Dog> {
 
     public final EnumPath<beside.poten.server.domain.dog.constant.DogGender> gender = createEnum("gender", beside.poten.server.domain.dog.constant.DogGender.class);
 
-    public final StringPath Name = createString("Name");
+    public final StringPath name = createString("name");
 
     public final EnumPath<beside.poten.server.domain.dog.constant.DogNeutered> neutered = createEnum("neutered", beside.poten.server.domain.dog.constant.DogNeutered.class);
 
