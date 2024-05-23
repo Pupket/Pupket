@@ -49,10 +49,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-    - name: Docker Compose build and push
-      run: |
-        docker-compose -f /home/runner/work/Pupket/Pupket/server/docker-compose.yml build
-        docker-compose -f /home/runner/work/Pupket/Pupket/server/docker-compose.yml push
 
     - name: Deploy to Prod
       uses: appleboy/ssh-action@master
@@ -63,7 +59,7 @@ jobs:
         port: 22
         envs: GITHUB_SHA,AWS_ACCESS_KEY,AWS_SECRET_KEY,DB_SERVER,DB_USERNAME,DB_PASSWORD
         script: |
-          docker-compose -f /home/runner/work/Pupket/Pupket/server/docker-compose.yml down
-          docker-compose -f /home/runner/work/Pupket/Pupket/server/docker-compose.yml pull
-          docker-compose -f /home/runner/work/Pupket/Pupket/server/docker-compose.yml up -d
+          docker-compose -f ./server/docker-compose.yml down
+          docker-compose -f ./server/docker-compose.yml pull
+          docker-compose -f ./server/docker-compose.yml up -d
           docker rmi -f $(docker images -f "dangling=true" -q)
