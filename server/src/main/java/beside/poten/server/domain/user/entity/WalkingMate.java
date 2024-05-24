@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Builder
@@ -27,10 +27,10 @@ public class WalkingMate {
     private WalkingMatePreferredDogSize preferredDogSize;
 
     @Column(nullable = false)
-    private Date preferredWalkingStartTime;
+    private Timestamp preferredWalkingStartTime;
 
     @Column(nullable = false)
-    private Date preferredWalkingEndTime;
+    private Timestamp preferredWalkingEndTime;
 
     private String preferredLocation;
 
@@ -38,6 +38,6 @@ public class WalkingMate {
 
     @Column(nullable = false)
     private Integer maxDogs;
-    
+
     private String profileImage;
 }
