@@ -78,5 +78,5 @@ jobs:
            docker stop pupcket
            docker rm pupcket
            sudo docker pull ${{ secrets.DOCKER_REPO }}/pupcket:temp
-           docker run -d --name pupcket -p 8080:8080 --env AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} --env AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --env DB_SERVER=${{ secrets.DB_SERVER }} --env DB_USERNAME=${{ secrets.DB_USERNAME }} --env DB_PASSWORD=${{ secrets.DB_PASSWORD }} --env SSL_PASSSWORD=${{ secrets.SSL_PASSWORD}} --rm ${{ secrets.DOCKER_REPO }}/pupcket:temp           
+           docker run -d --name pupcket -p 8080:8080 --env AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }} --env AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --env DB_SERVER=${{ secrets.DB_SERVER }} --env DB_USERNAME=${{ secrets.DB_USERNAME }} --env DB_PASSWORD=${{ secrets.DB_PASSWORD }} --env SSL_PASSSWORD=${{ secrets.SSL_PASSWORD}} ${{ secrets.DOCKER_REPO }}/pupcket:temp           
            docker rmi -f $(docker images -f "dangling=true" -q)
