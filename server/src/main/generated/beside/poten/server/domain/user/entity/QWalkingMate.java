@@ -29,9 +29,9 @@ public class QWalkingMate extends EntityPathBase<WalkingMate> {
 
     public final StringPath preferredPosition = createString("preferredPosition");
 
-    public final DateTimePath<java.util.Date> preferredWalkingEndTime = createDateTime("preferredWalkingEndTime", java.util.Date.class);
+    public final DateTimePath<java.sql.Timestamp> preferredWalkingEndTime = createDateTime("preferredWalkingEndTime", java.sql.Timestamp.class);
 
-    public final DateTimePath<java.util.Date> preferredWalkingStartTime = createDateTime("preferredWalkingStartTime", java.util.Date.class);
+    public final DateTimePath<java.sql.Timestamp> preferredWalkingStartTime = createDateTime("preferredWalkingStartTime", java.sql.Timestamp.class);
 
     public final StringPath profileImage = createString("profileImage");
 
