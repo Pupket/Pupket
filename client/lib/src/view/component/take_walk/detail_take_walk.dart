@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:potenday/src/config/global_variables.dart';
 import 'package:potenday/src/provider/user_mode_provider.dart';
 import 'package:potenday/src/util/custom_basic_container.dart';
+import 'package:potenday/src/util/default_next_button.dart';
 import 'package:potenday/src/view/header/app_header.dart';
 import 'package:provider/provider.dart';
 import 'package:transition/transition.dart';
@@ -263,6 +264,7 @@ class _DetailTakeWalkState extends State<DetailTakeWalk> {
                     fontFamily: 'NotoSansKR',
                     fontWeight: FontWeight.w400,
                   ),
+                    contentPadding: EdgeInsets.all(10),
                     border: InputBorder.none,
                 ),
                 ),
@@ -306,30 +308,19 @@ class _DetailTakeWalkState extends State<DetailTakeWalk> {
                       fontFamily: 'NotoSansKR',
                       fontWeight: FontWeight.w400,
                     ),
+                    contentPadding: EdgeInsets.all(10),
                     border: InputBorder.none,
                   ),
                 ),
               ),
-              SizedBox(height: 29),
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                },
-                child: const CustomBasicContainer(
-                    width: 347,
-                    height: 60,
-                    color: Color(0xFF4B433E),
-                    circularBorderRadius: 60,
-                    child: Text(
-                      '작성 완료',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: 'NotoSansKR',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    )
-                ),
+              SizedBox(height: 50),
+              DefaultNextButton(
+                  width: 347,
+                  height: 60,
+                  title: '작성 완료',
+                  onTapCallback: () {
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  },
               ),
             ],
           ),
