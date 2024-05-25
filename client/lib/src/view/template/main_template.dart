@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:potenday/src/config/color_set.dart';
 import 'package:potenday/src/config/global_variables.dart';
 import 'package:potenday/src/provider/bottom_navigation_bar_provider.dart';
+import 'package:potenday/src/provider/user_mode_provider.dart';
 import 'package:potenday/src/view/body/my_page_body.dart';
 import 'package:potenday/src/view/body/my_walk_body.dart';
 import 'package:potenday/src/view/body/home_body.dart';
@@ -21,6 +22,7 @@ class MainTemplate extends StatefulWidget {
 
 class _MainTemplateState extends State<MainTemplate> {
   late BottomNavigationBarProvider bottomNavigationBarProvider;
+  late UserModeProvider userModeProvider;
 
   @override
   void initState() {
@@ -36,20 +38,21 @@ class _MainTemplateState extends State<MainTemplate> {
   Widget build(BuildContext context) {
     debugPrint('MYLOG build MainTemplate');
     bottomNavigationBarProvider = Provider.of<BottomNavigationBarProvider>(context);
+    userModeProvider = Provider.of<UserModeProvider>(context);
     GlobalVariables.width = MediaQuery.of(context).size.width;
     GlobalVariables.height = MediaQuery.of(context).size.height;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
-        statusBarColor: CustomColor.lightBackgroundColor,
+        statusBarColor: userModeProvider.backgroundColor,
       ),
       child: PopScope(
-        canPop: true,
+        canPop: false,
         child: SafeArea(
           top: true,
           bottom: false,
           child: Scaffold(
-            // appBar: const AppHeader(),
+            appBar: AppHeader(isCancel: false, isAlarm: false),
             body: <int, Widget>{
               0: const HomeBody(),//SafeArea(top: true, bottom: false, child: HomeBody()),
               1: const TakeWalkBody(),
