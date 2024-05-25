@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:potenday/src/config/sqlite_config.dart';
 import 'package:potenday/src/provider/bottom_navigation_bar_provider.dart';
 import 'package:potenday/src/provider/user_mode_provider.dart';
@@ -32,16 +33,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const LoginTemplate(),
-        '/home': (context) => const MainTemplate(),
-        // '/': (context) => const PermissionTemplate(),
-        // '/login': (context) => const LoginTemplate(),
-        // '/terms': (context) => const SignTermsTemplate(),
-        // '/home': (context) => const MainTemplate(),
-      },
+    UserModeProvider userModeProvider = Provider.of<UserModeProvider>(context);
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: userModeProvider.backgroundColor,
+      ),
+      child: MaterialApp(
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => const LoginTemplate(),
+          '/home': (context) => const MainTemplate(),
+          // '/': (context) => const PermissionTemplate(),
+          // '/login': (context) => const LoginTemplate(),
+          // '/terms': (context) => const SignTermsTemplate(),
+          // '/home': (context) => const MainTemplate(),
+        },
+      ),
     );
   }
 }

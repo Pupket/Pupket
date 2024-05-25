@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:potenday/src/config/global_variables.dart';
 import 'package:potenday/src/provider/user_mode_provider.dart';
 import 'package:potenday/src/util/custom_basic_container.dart';
+import 'package:potenday/src/util/default_next_button.dart';
 import 'package:potenday/src/view/component/take_walk/detail_take_walk.dart';
 import 'package:potenday/src/view/header/app_header.dart';
 import 'package:provider/provider.dart';
@@ -599,8 +600,10 @@ class _DayTakeWalkState extends State<DayTakeWalk> {
                   ],
                 ),
                 SizedBox(height: 51),
-                InkWell(
-                  onTap: () {
+                DefaultNextButton(
+                  width: 347,
+                  height: 60,
+                  onTapCallback: () {
                     Navigator.push(
                       context,
                       Transition(
@@ -609,21 +612,6 @@ class _DayTakeWalkState extends State<DayTakeWalk> {
                       ),
                     );
                   },
-                  child: const CustomBasicContainer(
-                      width: 347,
-                      height: 60,
-                      color: Color(0xFF4B433E),
-                      circularBorderRadius: 60,
-                      child: Text(
-                        '다음',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontFamily: 'NotoSansKR',
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )
-                  ),
                 ),
               ],
             ),
